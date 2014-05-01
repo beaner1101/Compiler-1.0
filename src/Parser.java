@@ -5,18 +5,23 @@
  */
 
 package compiler;
-
+import java.util.*;
 /**
  *
  * @author beaner
  */
-public class grammarTable {
-    int[][] gT=new int[70][10];
-    public grammarTable()
+public class Parser {
+    Stack rS=new Stack();
+    String state;
+    int endState,EOF;    
+    public Parser()
     {
-        
+        endState=0;
+        EOF=-1;
+        rS.push(EOF);
+        rS.push(endState);
     }
-    public void populate()
+    public void parse(int in)
     {
         
     }
