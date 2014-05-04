@@ -4,14 +4,38 @@
  * and open the template in the editor.
  */
 import java.io.*;
+import java.util.*;
 /**
  *
  * @author beaner
  */
 public class LexAn {
+    Scanner s = new Scanner(System.in);
     symbolTable sT=new symbolTable();
     public LexAn()
     {
+    }
+    public void file()
+    {
+        System.out.println("Enter the path: ");
+        String path=s.nextLine();
+        String hold;
+        String temp="";
+        File input=new File(path);
+        try
+        {
+            BufferedReader reader=new BufferedReader(new FileReader(path));
+            while ((hold=reader.readLine()) != null)
+            {
+                if(hold!=null)
+                    temp+=hold+"\n";
+            }
+        }
+        catch(IOException x)
+        {
+            System.err.format("IOException: %s%n", x);
+        }
+        scan(temp);
     }
     public void scan(String in)
     {
@@ -25,8 +49,9 @@ public class LexAn {
                 boolean cond=reservedWord(trim);
                 if(!cond)
                 {
-                    sT.add(new Symbol(trim));
+                    sT.add(new Symbol(null,trim,null));
                 }
+                
             }
             else
                 temp+=in.charAt(x);

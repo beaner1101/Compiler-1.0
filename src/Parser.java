@@ -14,13 +14,28 @@ public class Parser {
     int endState,EOF;    
     public Parser()
     {
+    }
+    public void pSetup()
+    {
         endState=0;
-        EOF=-1;
+        EOF = -1;
         s.push(EOF);
         s.push(endState);
     }
     public void parse(int in)
     {
         s.push(in);
+        int x = (int)s.pop();
+        System.out.println(x);
+        if(x==0)
+        {
+            System.out.println("Accepted");
+        }
+        else if(x==-1)
+        {
+            System.out.println("Reached end while parsing");
+        }
+        else
+            System.out.print("FUCK YOU DR. CHEEZIT!!!");
     }
 }
