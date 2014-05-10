@@ -19,4 +19,12 @@ public class symbolTable {
     {
         sT.add(n);
     }
+    public boolean check(Symbol n)
+    {
+        if(sT.contains(n))
+        {
+            return true;
+        }
+        return false;
+    }
 }

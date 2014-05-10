@@ -10,9 +10,15 @@
  */
 public class lookupTable {
     int[][] lT=new int[106][63];
-    public lookupTable()
+    public void lookupTable(){
+        
+    }
+    /*
+    setup of lookupTable
+    */
+    public void lookupTablepop()
     {
-        for(int i=0;i<lT.length;i++)
+        for(int i=0;i<106;i++)
         {
             lT[i] = fill(lT[i], 9999);
         }
@@ -26,7 +32,7 @@ public class lookupTable {
         lT[1][2] = 4;
         lT[1][44] = 5;
         
-        lT[2][13] = 6;
+        lT[2][0] = 6;
         
         lT[3][12] = 7;
         lT[3][43] = 8;
@@ -383,7 +389,9 @@ public class lookupTable {
         lT[105] = fill(lT[105], -32);
         lT[98][36] = 82;
     }
-    
+    /*
+    fills row if default value is used
+    */
     public int[] fill(int[] row,int num)
     {
         for(int i = 0; i < row.length; i++)
@@ -392,6 +400,9 @@ public class lookupTable {
         }
         return row;
     }
+    /*
+    print the lookup table
+    */
     public void print()
     {
         for(int x=0;x<106;x++)
@@ -402,5 +413,17 @@ public class lookupTable {
             }
             System.out.println();
         }
+    }
+    public int fuck(int x, int y)
+    {
+        return lT[x][y];
+    }
+    /*
+    return the new state
+    param(current state, symbol in)
+    */
+    public int rState(int cur, int sym)
+    {
+        return(lT[cur][sym]);
     }
 }

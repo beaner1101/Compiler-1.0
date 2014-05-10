@@ -18,7 +18,6 @@ public class Compiler {
     public static void main(String[] args) {
         Parser p =new Parser();
         p.pSetup();
-        p.parse(9);
+        p.something();
     }
-    
 }

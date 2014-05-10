@@ -4,38 +4,121 @@
  * and open the template in the editor.
  */
 import java.util.*;
+import java.math.*;
 /**
  *
  * @author beaner
  */
 public class Parser {
-    Stack s=new Stack();
+    Stack<Integer> s=new Stack();
     String state;
-    int endState,EOF;    
+    int endState,EOF,curState,ltValue, nextState; 
+    lookupTable lT=new lookupTable();
+    grammarTable gT=new grammarTable();
+    Error e = new Error();
+    LexAn l = new LexAn();
     public Parser()
     {
     }
+    //token
+    //state
+    /*
+    initial setup of parser
+    */
     public void pSetup()
     {
+        curState=0;
         endState=0;
         EOF = -1;
         s.push(EOF);
         s.push(endState);
     }
-    public void parse(int in)
+    //106->state x 63->token
+    public void something()
     {
-        s.push(in);
-        int x = (int)s.pop();
-        System.out.println(x);
-        if(x==0)
+        gT.populate();
+        lT.lookupTablepop();
+        l.file();
+        while(l.x<l.temp.length()-1)
         {
-            System.out.println("Accepted");
+            int nextIn=l.scan(l.temp);
+            nextState=lT.fuck(curState,nextIn);
+            if(nextState==0)
+            {
+                accept();
+            }
+            else if(nextState<0)
+            {
+                while(nextState < 0){
+                reduce(Math.abs(nextState));
+                nextState = lT.fuck(curState, nextIn);
+                }
+                shift(nextState, nextIn);
+            }
+            else if(nextState<999&&nextState>0)
+            {
+                shift(nextState,nextIn);
+            }
+            else
+            {
+                System.out.println("Parse error");
+                System.exit(0);
+            }
+            
+            if(curState == 6){
+                System.out.println("Accept");
+            }
         }
-        else if(x==-1)
+    }
+    /*
+    code for reduction
+    */
+    public void reduce(int x)
+    {
+        int[] z=gT.getRule(x);
+        for(int shit=0;shit<z.length-1;shit++)
         {
-            System.out.println("Reached end while parsing");
+            s.pop();
+            if(s.pop()==z[shit])
+            {
+                continue;
+            }
+            else
+            {
+                System.out.println("Parse error");
+                System.exit(0);
+            }
         }
-        else
-            System.out.print("FUCK YOU DR. CHEEZIT!!!");
+        curState = s.peek();
+        s.push(z[z.length-1]);
+        curState=lT.fuck(curState, s.peek());
+        s.push(curState);
+    }
+    /*
+    code for shift
+    */
+    public void shift(int x, int y)
+    {
+        s.push(y);
+        s.push(x);
+        curState = x;
+    }
+    /*
+    code for goto
+    */
+    public void goTo(int x, int y)
+    {
+        s.push(x);
+    }
+    /*
+    code has been successfully accepted
+    */
+    public void accept()
+    {
+        System.out.println("Code has been accepted.");
     }
 }
+/*
+Thoughts
+*/
+//int newS=Math.abs(lT[][]);

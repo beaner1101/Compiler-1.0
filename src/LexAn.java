@@ -12,15 +12,63 @@ import java.util.*;
 public class LexAn {
     Scanner s = new Scanner(System.in);
     symbolTable sT=new symbolTable();
+    Stack sck = new Stack();
+    Stack stck=new Stack();
+    int x=0;
+    String[] rL;
+    String temp="";
+    Error e=new Error();
     public LexAn()
     {
+        rL=new String[41]; 
+        rL[0]="$";
+        rL[1]="DECLARE";
+        rL[2]="id";
+        rL[3]=":=";
+        rL[4]="BOOLEAN";
+        rL[5]="CHAR";
+        rL[6]="num";
+        rL[7]=",";
+        rL[8]="NUMBER";
+        rL[9]="INT";
+        rL[10]="SMALLINT";
+        rL[11]="POSITIVE";
+        rL[12]="BEGIN";
+        rL[13]="END";
+        rL[14]="NULL";
+        rL[15]="DBMS_OUTPUT.PUT_LINE";
+        rL[16]="DBMS_OUTPUT.PUT";
+        rL[17]="DBMS_OUTPUT.NEW_LINE";
+        rL[18]="&";
+        rL[19]="IF";
+        rL[20]="THEN";
+        rL[21]="WHILE";
+        rL[22]="LOOP";
+        rL[23]="c";
+        rL[24]="TRUE";
+        rL[25]="FALSE";
+        rL[26]="NOT";
+        rL[27]=">";
+        rL[28]=">=";
+        rL[29]="=";
+        rL[30]="<=";
+        rL[31]="<";
+        rL[32]="<>";
+        rL[33]="+";
+        rL[34]="-";
+        rL[35]="*";
+        rL[36]="/";
+        rL[37]="MOD";
+        rL[38]=";";
+        rL[39]="(";
+        rL[40]=")";
     }
     public void file()
     {
-        System.out.println("Enter the path: ");
-        String path=s.nextLine();
+        //System.out.println("Enter the path: ");
+        //String path=s.nextLine();
+        String path="/home/beaner/Desktop/t";
         String hold;
-        String temp="";
         File input=new File(path);
         try
         {
@@ -30,88 +78,65 @@ public class LexAn {
                 if(hold!=null)
                     temp+=hold+"\n";
             }
+            temp += "$";
         }
         catch(IOException x)
         {
             System.err.format("IOException: %s%n", x);
         }
-        scan(temp);
     }
-    public void scan(String in)
+    //process each individual token for parser
+    public int scan(String in)
     {
-        String temp="";
-        int x=0;
+        in+=" ";
+        String tmp="";
         while(x<in.length())
         {
-            if(in.charAt(x)==' ')
+            if(in.charAt(x)==' '||in.charAt(x)=='\n'||in.charAt(x)=='\t'||x+1==in.length())
             {
-                String trim = temp.trim();
-                boolean cond=reservedWord(trim);
-                if(!cond)
+                String trim = tmp.trim();
+                System.out.println(trim);
+                int cond=reservedWord(trim);
+                //if token does not exist in the reserved words or grammar list
+                if(cond == -1)
                 {
-                    sT.add(new Symbol(null,trim,null));
+                    Symbol sym=new Symbol(null,trim,null);
+                    if(sT.check(sym))
+                    {
+                        e.printE(3);
+                    }
+                    else
+                    {
+                        sT.add(sym);
+                    }
+                }else{
+                    return cond;
                 }
-                
+                //returns int value of the token
+               
+                tmp="";
             }
             else
-                temp+=in.charAt(x);
+            {
+                tmp+=in.charAt(x);
+            }
+            x++;
         }
+        return -9999;
     }
-    public boolean reservedWord(String in)
+    /*
+    list of reserved words
+    returns true if entry exists
+    */
+    public int reservedWord(String in)
     {
-        String[] rL=new String[40];
-        
-        int[] rLT=new int[]{0, 18, 39, 40, 35, 33, 7, 34, 36, 38, 1, 2,
-        4, 5, 8, 9, 10, 11, 12, 13, 15, 16, 17, 19, 20, 21, 22, 23, 49, 
-        24, 25, 26, 37, 3, 29, 27, 28, 31, 30, 32}; 
-        rL[0]="$";
-        rL[1]="&";
-        rL[2]="(";
-        rL[3]=")";
-        rL[4]="*";
-        rL[5]="+";
-        rL[5]=",";
-        rL[6]="-";
-        rL[7]="/";
-        rL[8]=";";
-        rL[9]="DECLARE";
-        rL[10]="id";
-        rL[11]="BOOLEAN";
-        rL[12]="CHAR";
-        rL[13]="NUMBER";
-        rL[14]="INT";
-        rL[15]="SMALLINT";
-        rL[16]="POSITIVE";
-        rL[17]="BEGIN";
-        rL[18]="END";
-        rL[19]="NULL";
-        rL[20]="DBMS_OUTPUT.PUT_LINE";
-        rL[21]="DBMS_OUTPUT.PUT";
-        rL[22]="DBMS_OUTPUT.NEW_LINE";
-        rL[23]="IF";
-        rL[24]="THEN";
-        rL[25]="WHILE";
-        rL[26]="LOOP";
-        rL[27]="c";
-        rL[28]="num";
-        rL[29]="TRUE";
-        rL[30]="FALSE";
-        rL[31]="NOT";
-        rL[32]="MOD";
-        rL[33]=":=";
-        rL[34]="=";
-        rL[35]=">";
-        rL[36]=">=";
-        rL[37]="<";
-        rL[38]="<=";
-        rL[39]="<>";
         for(int x=0;x<39;x++)
         {
             if(in.equals(rL[x]))
             {
-                return true;
+                return x;
             }
         }
-        return false;
+        return -1;
     }
 }
