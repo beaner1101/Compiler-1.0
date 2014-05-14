@@ -10,6 +10,7 @@ import java.math.*;
  * @author beaner
  */
 public class Parser {
+    int x = 0;
     Stack<Integer> s=new Stack();
     String state;
     int endState,EOF,curState,ltValue, nextState; 
@@ -39,32 +40,38 @@ public class Parser {
         gT.populate();
         lT.lookupTablepop();
         l.file();
-        while(l.x<l.temp.length()-1)
+        while(l.scncnt<l.temp.length())
         {
             int nextIn=l.scan(l.temp);
+            //System.out.println(nextIn+" "+x+" fuck nuts!!!!");
+            //System.out.println("nextIn = "+nextIn);
+            //System.out.println("FUCK @ "+curState+" "+nextIn+" "+x);
             nextState=lT.fuck(curState,nextIn);
+            x++;
+            //System.out.println("nextState = "+nextState);
             if(nextState==0)
             {
                 accept();
             }
             else if(nextState<0)
             {
-                while(nextState < 0){
-                reduce(Math.abs(nextState));
-                nextState = lT.fuck(curState, nextIn);
+                while(nextState < 0)
+                {
+                    reduce(Math.abs(nextState));
+                    nextState = lT.fuck(curState, nextIn);
                 }
                 shift(nextState, nextIn);
             }
             else if(nextState<999&&nextState>0)
             {
+              
                 shift(nextState,nextIn);
             }
-            else
+            else 
             {
-                System.out.println("Parse error");
+                //System.out.println("Parse error");
                 System.exit(0);
             }
-            
             if(curState == 6){
                 System.out.println("Accept");
             }
@@ -85,13 +92,23 @@ public class Parser {
             }
             else
             {
-                System.out.println("Parse error");
+                //System.out.println("Parse error line 91");
                 System.exit(0);
             }
+        }
+        if(s.size()<=0)
+        {
+            //System.out.println("Reached the end while parsing line 97");
+            System.exit(0);
         }
         curState = s.peek();
         s.push(z[z.length-1]);
         curState=lT.fuck(curState, s.peek());
+        if(curState==9999)
+        {
+            //System.out.println("semantic error");
+            System.exit(0);
+        }
         s.push(curState);
     }
     /*

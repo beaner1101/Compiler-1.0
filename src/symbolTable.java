@@ -27,4 +27,11 @@ public class symbolTable {
         }
         return false;
     }
+    public void p()
+    {
+        for(int i=0;i<sT.size();i++)
+        {
+            System.out.println(sT.get(i).toString());
+        }
+    }
 }

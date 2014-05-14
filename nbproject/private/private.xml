@@ -8,7 +8,10 @@
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/LexAn.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/lookupTable.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Compiler.java</file>
+            <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/parseToken.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Parser.java</file>
+            <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Generator.java</file>
+            <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/symbolTable.java</file>
         </group>
     </open-files>
 </project-private>

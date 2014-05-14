@@ -9,19 +9,27 @@
  * @author beaner
  */
 public class parseToken {
-    public parseToken(int n, int v)
+    int name;
+    String value;
+    public parseToken(int n)
     {
-        int name=n;
-        int value=v;
+        name=n;
     }
     public parseToken(int n, String v)
     {
-        int name=n;
-        String value=v;
+        name=n;
+        value=v;
     }
-    public parseToken(int n, Boolean v)
+    public int getName()
     {
-        int name=n;
-        Boolean value=v;
+        return name;
+    }
+    public String getValue()
+    {
+        if(value!=null)
+        {
+            return value;
+        }
+        return null;
     }
 }

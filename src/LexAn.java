@@ -14,10 +14,13 @@ public class LexAn {
     symbolTable sT=new symbolTable();
     Stack sck = new Stack();
     Stack stck=new Stack();
-    int x=0;
+    int scncnt=0;
     String[] rL;
     String temp="";
     Error e=new Error();
+    boolean size = false;
+    boolean paren = false;
+    boolean rflag=false;
     public LexAn()
     {
         rL=new String[41]; 
@@ -84,8 +87,200 @@ public class LexAn {
         {
             System.err.format("IOException: %s%n", x);
         }
+        //System.out.print(temp);
+    }
+    public int scan(String in)
+    {
+        in+=" ";
+        String tmp="";
+        while(scncnt<in.length()-1)
+        {
+            if((in.charAt(scncnt)>='a'&&in.charAt(scncnt)<='z')||(in.charAt(scncnt)>='A'&&in.charAt(scncnt)<='Z')||in.charAt(scncnt)=='_'||in.charAt(scncnt)=='.'||(in.charAt(scncnt)>='0'&&in.charAt(scncnt)<='9'))
+            {
+                tmp+=in.charAt(scncnt);
+                if(!((in.charAt(scncnt+1)>='a'&&in.charAt(scncnt+1)<='z')||(in.charAt(scncnt+1)>='A'&&in.charAt(scncnt+1)<='Z')||in.charAt(scncnt+1)=='_'||in.charAt(scncnt+1)=='.'))
+                {
+                    tmp=tmp.trim();
+                    if(reservedWord(tmp.trim())!=-1)
+                    {
+                        
+                        if(reservedWord(tmp)==8||reservedWord(tmp)==9||reservedWord(tmp)==10||reservedWord(tmp)==11)
+                        {
+                            size=true;
+                        }
+                        if(!(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')&&!(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z'))
+                        {
+                            System.out.println("Invalid variable: "+tmp);
+                            System.exit(0);
+                        }
+                        if(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z')
+                        {
+                            scncnt++;
+                            System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 117");
+                            return reservedWord(tmp.trim());
+                        }
+                    }
+                    if(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')
+                    {
+                        scncnt++;
+                        System.out.println(temp.trim()+" 2"+" 121");
+                        return 2;
+                    }
+                }
+            }
+            else if(in.charAt(scncnt)==':')
+            {
+                if(in.charAt(scncnt+1)=='=')
+                {
+                    scncnt++;
+                    //System.out.println(":=");
+                    return reservedWord(":=");
+                }
+                scncnt++;
+                System.out.println("FUCK!!!");
+                return 7777;
+            }
+            else if(in.charAt(scncnt)=='>')
+            {
+                if(in.charAt(scncnt+1)=='=')
+                {
+                    scncnt++;
+                    //System.out.println(">="+" "+reservedWord(">="));
+                    return reservedWord(">=");
+                }
+                scncnt++;
+                //System.out.println(">"+" "+reservedWord(">"));
+                return reservedWord(">");
+            }
+            else if(in.charAt(scncnt)=='=')
+            {
+                if(in.charAt(scncnt+1)=='=')
+                {
+                    scncnt++;
+                    size=false;
+                    //System.out.println("=="+" "+reservedWord("=="));
+                    return reservedWord("==");                    
+                }
+                size=false;
+                scncnt++;
+                //System.out.println("="+" "+reservedWord("="));
+                return reservedWord("=");
+            }
+            else if(in.charAt(scncnt)==')')
+            {
+                size=false;
+                scncnt++;
+                //System.out.println(")"+" "+reservedWord(")"));
+                return reservedWord(")");
+            }
+            else if(in.charAt(scncnt)=='<')
+            {
+                if(in.charAt(scncnt+1)=='>')
+                {
+                    scncnt++;
+                    //System.out.println("<>"+" "+reservedWord("<>"));
+                    return reservedWord("<>");
+                }
+                else if(in.charAt(scncnt+1)=='=')
+                {
+                    scncnt++;
+                    //System.out.println("<="+" "+reservedWord("<="));
+                    return reservedWord("<=");
+                }
+            }
+            else
+            {
+                tmp+=in.charAt(scncnt);
+                if(reservedWord(tmp.trim())!=-1)
+                {
+                    scncnt++;
+                    //System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 191");
+                    return reservedWord(tmp.trim());
+                }
+            }
+            scncnt++;
+        }
+        System.out.println("FUCK AGAIN!!!");
+        return 0;
     }
     //process each individual token for parser
+    /*
+    public int scan(String in)
+    {
+        in+=" ";
+        String tmp="";
+        while(x<in.length())
+        {
+            if(in.charAt(x)==' '||in.charAt(x)=='\n'||in.charAt(x)=='\t'||x+1==in.length())
+            {
+                String trim = tmp.trim();
+                System.out.println(trim);
+                int cond=(reservedWord(trim));
+                //if token does not exist in the reserved words or grammar list
+                if(cond == -1)
+                {
+                    Symbol sym=new Symbol(null,trim,null);
+                    if(sT.check(sym))
+                    {
+                        e.printE(3);
+                    }
+                    else
+                    {
+                        
+                        sT.add(sym);
+                        if(sym.name.length()>0)
+                        {
+                            System.out.println(sym.name+" added");
+                        if(sym.name.charAt(0)>='a'&&sym.name.charAt(0)<='z')
+                        {
+                            if(sym.name.contains("*")||sym.name.contains("/")||sym.name.contains("+")||sym.name.contains("-"))
+                            {
+                                System.out.println("Illegal name");
+                                System.exit(0);
+                            }
+                            return 2;
+                        }
+                        else if (size)
+                            return 50;
+                        else 
+                            return 6;
+                        }
+                    }
+                }
+                else
+                {
+                    return cond;
+                }
+                //returns int value of the token
+               
+                tmp="";
+            }
+            else
+            {
+                tmp+=in.charAt(x);
+            }
+            x++;
+        }
+        return -9999;
+    }
+    */
+    /*
+    list of reserved words
+    returns true if entry exists
+    */
+    public int reservedWord(String in)
+    {
+        for(int x=0;x<41;x++)
+        {
+            if(in.equals(rL[x]))
+            {
+                return x;
+            }
+        }
+        return -1;
+    }
+}
+/*
     public int scan(String in)
     {
         in+=" ";
@@ -109,7 +304,9 @@ public class LexAn {
                     {
                         sT.add(sym);
                     }
-                }else{
+                }
+                else
+                {
                     return cond;
                 }
                 //returns int value of the token
@@ -124,19 +321,4 @@ public class LexAn {
         }
         return -9999;
     }
-    /*
-    list of reserved words
-    returns true if entry exists
-    */
-    public int reservedWord(String in)
-    {
-        for(int x=0;x<39;x++)
-        {
-            if(in.equals(rL[x]))
-            {
-                return x;
-            }
-        }
-        return -1;
-    }
-}
+*/

@@ -39,6 +39,13 @@ public class lookupTable {
         
         lT[4][4] = 9;
         lT[4][5] = 10;
+        lT[4][8] = 11;
+        lT[4][9] = 12;
+        lT[4][10] = 13;
+        lT[4][11] = 14;
+        lT[4][45] = 15;
+        lT[4][48] = 16;
+        lT[4][49] = 17;
         
         lT[5] = fill(lT[5], -2);
         
@@ -387,7 +394,6 @@ public class lookupTable {
         lT[104] = fill(lT[104], -31);
         
         lT[105] = fill(lT[105], -32);
-        lT[98][36] = 82;
     }
     /*
     fills row if default value is used
@@ -416,6 +422,7 @@ public class lookupTable {
     }
     public int fuck(int x, int y)
     {
+        System.out.println("query lookup table at "+x+" "+y);
         return lT[x][y];
     }
     /*

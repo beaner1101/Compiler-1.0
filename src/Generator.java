@@ -9,6 +9,7 @@ import java.util.*;
  * @author beaner
  */
 public class Generator {
+    Stack gS=new Stack<>();
     public Generator(){
         
     }
