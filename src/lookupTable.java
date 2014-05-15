@@ -80,7 +80,7 @@ public class lookupTable {
         
         lT[14][39] = 35;
         
-        lT[15] = fill(lT[16], -7);
+        lT[15] = fill(lT[15], -7);
         lT[15][3] = 36;
         lT[15][46] = 37;
         
@@ -100,7 +100,7 @@ public class lookupTable {
         
         lT[23][2] = 42;
         lT[23][14] = 43;
-        lT[23][49] = 44;
+        lT[23][6] = 44;
         lT[23][24] = 45;
         lT[23][25] = 46;
         lT[23][26] = 47;
@@ -154,17 +154,17 @@ public class lookupTable {
         lT[36][2] = 42;
         lT[36][14] = 43;
         lT[36][23] = 61;
-        lT[36][8] = 44;
+        lT[36][6] = 44;
         lT[36][24] = 45;
         lT[36][25] = 46;
         lT[36][26] = 47;
         lT[36][47] = 62;
-        lT[36][56] = 53;
+        lT[36][56] = 63;
         lT[36][57] = 49;
         lT[36][59] = 50;
         lT[36][60] = 51;
         
-        lT[37][33] = 64;
+        lT[37][38] = 64;
         
         lT[38][2] = 42;
         lT[38][14] = 43;
@@ -197,7 +197,7 @@ public class lookupTable {
         
         lT[47][2] = 42;
         lT[47][14] = 43;
-        lT[47][8] = 44;
+        lT[47][6] = 44;
         lT[47][24] = 45;
         lT[47][25] = 46;
         lT[47][26] = 47;
@@ -227,7 +227,7 @@ public class lookupTable {
         
         lT[52][22] = 84;
         
-        lT[53] = fill(lT[53], -85);
+        lT[53] = fill(lT[53], -30);
         
         lT[54][38] = 85;
         
@@ -303,7 +303,7 @@ public class lookupTable {
         
         lT[78][2] = 42;
         lT[78][14] = 43;
-        lT[78][8] = 44;
+        lT[78][6] = 44;
         lT[78][24] = 45;
         lT[78][25] = 46;
         lT[78][26] = 47;
@@ -350,7 +350,7 @@ public class lookupTable {
         
         lT[86] = fill(lT[86], -24);
         
-        lT[87][8] = 101;
+        lT[87][6] = 101;
         
         lT[88] = fill(lT[88], -12);
         
@@ -366,7 +366,7 @@ public class lookupTable {
         
         lT[94] = fill(lT[94], -27);
         
-        lT[95] = fill(lT[95], 28);
+        lT[95] = fill(lT[95], -28);
         
         lT[96][13] = 102;
         
@@ -422,7 +422,7 @@ public class lookupTable {
     }
     public int fuck(int x, int y)
     {
-        System.out.println("query lookup table at "+x+" "+y);
+        //System.out.println("query lookup table at "+x+" "+y);
         return lT[x][y];
     }
     /*

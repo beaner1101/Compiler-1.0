@@ -14,13 +14,12 @@ public class LexAn {
     symbolTable sT=new symbolTable();
     Stack sck = new Stack();
     Stack stck=new Stack();
-    int scncnt=0;
+    int scncnt=-1;
     String[] rL;
     String temp="";
     Error e=new Error();
     boolean size = false;
-    boolean paren = false;
-    boolean rflag=false;
+    boolean cflag=false;
     public LexAn()
     {
         rL=new String[41]; 
@@ -95,6 +94,7 @@ public class LexAn {
         String tmp="";
         while(scncnt<in.length()-1)
         {
+            scncnt++;
             if((in.charAt(scncnt)>='a'&&in.charAt(scncnt)<='z')||(in.charAt(scncnt)>='A'&&in.charAt(scncnt)<='Z')||in.charAt(scncnt)=='_'||in.charAt(scncnt)=='.'||(in.charAt(scncnt)>='0'&&in.charAt(scncnt)<='9'))
             {
                 tmp+=in.charAt(scncnt);
@@ -108,6 +108,10 @@ public class LexAn {
                         {
                             size=true;
                         }
+                        else if(reservedWord(tmp)==5)
+                        {
+                            cflag=true;
+                        }
                         if(!(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')&&!(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z'))
                         {
                             System.out.println("Invalid variable: "+tmp);
@@ -115,17 +119,19 @@ public class LexAn {
                         }
                         if(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z')
                         {
-                            scncnt++;
-                            System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 117");
+                            //System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 117");
                             return reservedWord(tmp.trim());
-                        }
+                        } 
                     }
                     if(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')
                     {
-                        scncnt++;
-                        System.out.println(temp.trim()+" 2"+" 121");
+                        //System.out.println(temp.trim()+" 2"+" 121");
                         return 2;
                     }
+                }
+                if(!(in.charAt(scncnt+1)>='0'&&in.charAt(scncnt+1)<='9')&&tmp.charAt(0)>='0'&&tmp.charAt(0)<='9')
+                {
+                    return 6;
                 }
             }
             else if(in.charAt(scncnt)==':')
@@ -136,19 +142,17 @@ public class LexAn {
                     //System.out.println(":=");
                     return reservedWord(":=");
                 }
-                scncnt++;
-                System.out.println("FUCK!!!");
+                //System.out.println("FUCK!!!");
                 return 7777;
             }
             else if(in.charAt(scncnt)=='>')
             {
                 if(in.charAt(scncnt+1)=='=')
                 {
-                    scncnt++;
                     //System.out.println(">="+" "+reservedWord(">="));
+                    scncnt++;
                     return reservedWord(">=");
                 }
-                scncnt++;
                 //System.out.println(">"+" "+reservedWord(">"));
                 return reservedWord(">");
             }
@@ -156,20 +160,18 @@ public class LexAn {
             {
                 if(in.charAt(scncnt+1)=='=')
                 {
-                    scncnt++;
                     size=false;
                     //System.out.println("=="+" "+reservedWord("=="));
+                    scncnt++;
                     return reservedWord("==");                    
                 }
                 size=false;
-                scncnt++;
                 //System.out.println("="+" "+reservedWord("="));
                 return reservedWord("=");
             }
             else if(in.charAt(scncnt)==')')
             {
                 size=false;
-                scncnt++;
                 //System.out.println(")"+" "+reservedWord(")"));
                 return reservedWord(")");
             }
@@ -177,14 +179,13 @@ public class LexAn {
             {
                 if(in.charAt(scncnt+1)=='>')
                 {
-                    scncnt++;
                     //System.out.println("<>"+" "+reservedWord("<>"));
                     return reservedWord("<>");
                 }
                 else if(in.charAt(scncnt+1)=='=')
                 {
-                    scncnt++;
                     //System.out.println("<="+" "+reservedWord("<="));
+                    scncnt++;
                     return reservedWord("<=");
                 }
             }
@@ -193,15 +194,13 @@ public class LexAn {
                 tmp+=in.charAt(scncnt);
                 if(reservedWord(tmp.trim())!=-1)
                 {
-                    scncnt++;
                     //System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 191");
                     return reservedWord(tmp.trim());
                 }
             }
-            scncnt++;
         }
         System.out.println("FUCK AGAIN!!!");
-        return 0;
+        return -9999;
     }
     //process each individual token for parser
     /*
