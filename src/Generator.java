@@ -9,7 +9,9 @@ import java.util.*;
  * @author beaner
  */
 public class Generator {
-    Stack gS=new Stack<>();
+    Stack iS=new Stack<Integer>();
+    Stack nS=new Stack<String>();
+    Stack qS=new Stack<quad>();    
     public Generator(){
         
     }

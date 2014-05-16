@@ -156,6 +156,21 @@ public class LexAn {
                 //System.out.println(">"+" "+reservedWord(">"));
                 return reservedWord(">");
             }
+            else if(in.charAt(scncnt)=='\'')
+            {
+                cflag=true;
+                while(cflag)
+                {
+                    tmp+=in.charAt(scncnt);
+                    scncnt++;
+                    if(in.charAt(scncnt)=='\'')
+                    {
+                        cflag=false;
+                        scncnt++;
+                        return 23;
+                    }
+                }
+            }
             else if(in.charAt(scncnt)=='=')
             {
                 if(in.charAt(scncnt+1)=='=')
