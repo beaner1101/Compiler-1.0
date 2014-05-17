@@ -49,7 +49,7 @@ public class Parser {
             if (nextIn == -9999) {
                 break;
             }
-            System.out.println(nextIn);
+            //System.out.println(nextIn);
             nextState = lT.fuck(curState, nextIn);
             x++;
             //System.out.println("nextState = "+nextState);
@@ -66,11 +66,10 @@ public class Parser {
                 shift(nextState, nextIn);
             } else {
                 System.out.println("Parse error");
-                System.exit(0);
+                System.exit(-1);
             }
             if (curState == 6) {
-                System.out.println("Accept");
-                System.exit(0);
+                accept();
             }
         }
     }
@@ -81,29 +80,29 @@ public class Parser {
     public void reduce(int x) {
         int[] z = gT.getRule(x);
         for (int shit = 0; shit < z.length - 1; shit++) {
-            System.out.println("Reduce on rule: " + x);
+            //System.out.println("Reduce on rule: " + x);
             s.pop();
             int popped = s.pop();
             if (popped != z[shit]) {
-                System.out.println("popped " + popped + " expected " + z[shit]);
-                System.out.println("Parse error line 91");
-                System.exit(0);
+                //System.out.println("popped " + popped + " expected " + z[shit]);
+                //System.out.println("Parse error line 91");
+                System.exit(-1);
             }
         }
         if (s.size() <= 0) {
-            System.out.println("Reached the end while parsing line 97");
-            System.exit(0);
+            //System.out.println("Reached the end while parsing line 97");
+            System.exit(-1);
         }
         curState = s.peek();
         s.push(z[z.length - 1]);
-        System.out.println("108 Pushed: " + s.peek());
+        //System.out.println("108 Pushed: " + s.peek());
         curState = lT.fuck(curState, s.peek());
         if (curState == 9999) {
-            System.out.println("semantic error");
-            System.exit(0);
+            //System.out.println("semantic error");
+            System.exit(-1);
         }
         s.push(curState);
-        System.out.println("116 Pushed: " + s.peek());
+        //System.out.println("116 Pushed: " + s.peek());
     }
     /*
      code for shift
@@ -111,9 +110,9 @@ public class Parser {
 
     public void shift(int x, int y) {
         s.push(y);
-        System.out.println("124 pushed: " + s.peek());
+        //System.out.println("124 pushed: " + s.peek());
         s.push(x);
-        System.out.println("126 pushed: " + s.peek());
+        //System.out.println("126 pushed: " + s.peek());
         curState = x;
     }
     /*

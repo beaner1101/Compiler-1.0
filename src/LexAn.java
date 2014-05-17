@@ -20,6 +20,7 @@ public class LexAn {
     Error e=new Error();
     boolean size = false;
     boolean cflag=false;
+    Generator g = new Generator();
     public LexAn()
     {
         rL=new String[41]; 
@@ -115,22 +116,32 @@ public class LexAn {
                         if(!(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')&&!(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z'))
                         {
                             System.out.println("Invalid variable: "+tmp);
-                            System.exit(0);
+                            System.exit(-1);
                         }
                         if(tmp.charAt(0)>='A'&&tmp.charAt(0)<='Z')
                         {
                             //System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 117");
+                            if(tmp.trim().compareTo("TRUE")==0)
+                            {
+                                g.list("TRUE");
+                            }
+                            else if(tmp.trim().compareTo("FALSE")==0)
+                            {
+                                g.list("FALSE");
+                            }
                             return reservedWord(tmp.trim());
                         } 
                     }
                     if(tmp.charAt(0)>='a'&&tmp.charAt(0)<='z')
                     {
                         //System.out.println(temp.trim()+" 2"+" 121");
+                        g.list(tmp.trim());
                         return 2;
                     }
                 }
                 if(!(in.charAt(scncnt+1)>='0'&&in.charAt(scncnt+1)<='9')&&tmp.charAt(0)>='0'&&tmp.charAt(0)<='9')
                 {
+                    g.list(tmp.trim());
                     return 6;
                 }
             }
@@ -151,9 +162,11 @@ public class LexAn {
                 {
                     //System.out.println(">="+" "+reservedWord(">="));
                     scncnt++;
+                    g.list(">=");
                     return reservedWord(">=");
                 }
                 //System.out.println(">"+" "+reservedWord(">"));
+                g.list(">");
                 return reservedWord(">");
             }
             else if(in.charAt(scncnt)=='\'')
@@ -165,23 +178,19 @@ public class LexAn {
                     scncnt++;
                     if(in.charAt(scncnt)=='\'')
                     {
+                        tmp+="\'";
                         cflag=false;
                         scncnt++;
+                        g.list(tmp);
                         return 23;
                     }
                 }
             }
             else if(in.charAt(scncnt)=='=')
             {
-                if(in.charAt(scncnt+1)=='=')
-                {
-                    size=false;
-                    //System.out.println("=="+" "+reservedWord("=="));
-                    scncnt++;
-                    return reservedWord("==");                    
-                }
                 size=false;
                 //System.out.println("="+" "+reservedWord("="));
+                g.list("=");
                 return reservedWord("=");
             }
             else if(in.charAt(scncnt)==')')
@@ -195,93 +204,42 @@ public class LexAn {
                 if(in.charAt(scncnt+1)=='>')
                 {
                     //System.out.println("<>"+" "+reservedWord("<>"));
+                    g.list("<>");
                     return reservedWord("<>");
                 }
                 else if(in.charAt(scncnt+1)=='=')
                 {
                     //System.out.println("<="+" "+reservedWord("<="));
                     scncnt++;
+                    g.list("<=");
                     return reservedWord("<=");
                 }
+            }
+            else if(in.charAt(scncnt)=='(')
+            {
+                return reservedWord("(");
+            }
+            else if(in.charAt(scncnt)==';')
+            {
+                return reservedWord(";");
+            }
+            else if(in.charAt(scncnt)=='$')
+            {
+                return reservedWord("$");
             }
             else
             {
                 tmp+=in.charAt(scncnt);
                 if(reservedWord(tmp.trim())!=-1)
                 {
+                    g.list(tmp.trim());
                     //System.out.println(tmp.trim()+" "+reservedWord(tmp.trim())+" 191");
                     return reservedWord(tmp.trim());
                 }
             }
         }
-        System.out.println("FUCK AGAIN!!!");
         return -9999;
     }
-    //process each individual token for parser
-    /*
-    public int scan(String in)
-    {
-        in+=" ";
-        String tmp="";
-        while(x<in.length())
-        {
-            if(in.charAt(x)==' '||in.charAt(x)=='\n'||in.charAt(x)=='\t'||x+1==in.length())
-            {
-                String trim = tmp.trim();
-                System.out.println(trim);
-                int cond=(reservedWord(trim));
-                //if token does not exist in the reserved words or grammar list
-                if(cond == -1)
-                {
-                    Symbol sym=new Symbol(null,trim,null);
-                    if(sT.check(sym))
-                    {
-                        e.printE(3);
-                    }
-                    else
-                    {
-                        
-                        sT.add(sym);
-                        if(sym.name.length()>0)
-                        {
-                            System.out.println(sym.name+" added");
-                        if(sym.name.charAt(0)>='a'&&sym.name.charAt(0)<='z')
-                        {
-                            if(sym.name.contains("*")||sym.name.contains("/")||sym.name.contains("+")||sym.name.contains("-"))
-                            {
-                                System.out.println("Illegal name");
-                                System.exit(0);
-                            }
-                            return 2;
-                        }
-                        else if (size)
-                            return 50;
-                        else 
-                            return 6;
-                        }
-                    }
-                }
-                else
-                {
-                    return cond;
-                }
-                //returns int value of the token
-               
-                tmp="";
-            }
-            else
-            {
-                tmp+=in.charAt(x);
-            }
-            x++;
-        }
-        return -9999;
-    }
-    */
-    /*
-    list of reserved words
-    returns true if entry exists
-    */
     public int reservedWord(String in)
     {
         for(int x=0;x<41;x++)
@@ -294,45 +252,3 @@ public class LexAn {
         return -1;
     }
 }
-/*
-    public int scan(String in)
-    {
-        in+=" ";
-        String tmp="";
-        while(x<in.length())
-        {
-            if(in.charAt(x)==' '||in.charAt(x)=='\n'||in.charAt(x)=='\t'||x+1==in.length())
-            {
-                String trim = tmp.trim();
-                System.out.println(trim);
-                int cond=reservedWord(trim);
-                //if token does not exist in the reserved words or grammar list
-                if(cond == -1)
-                {
-                    Symbol sym=new Symbol(null,trim,null);
-                    if(sT.check(sym))
-                    {
-                        e.printE(3);
-                    }
-                    else
-                    {
-                        sT.add(sym);
-                    }
-                }
-                else
-                {
-                    return cond;
-                }
-                //returns int value of the token
-               
-                tmp="";
-            }
-            else
-            {
-                tmp+=in.charAt(x);
-            }
-            x++;
-        }
-        return -9999;
-    }
-*/

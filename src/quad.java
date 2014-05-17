@@ -9,7 +9,12 @@
  * @author beaner
  */
 public class quad {
-    public quad(){
-        
+    String operation;
+    String q1,q2,q3;
+    public quad(String op, String x, String y, String z){
+        operation = op;
+        q1 = x;
+        q2 = y;
+        q3 = z;
     }
 }
