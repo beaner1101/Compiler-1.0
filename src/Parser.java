@@ -20,9 +20,11 @@ public class Parser {
     lookupTable lT = new lookupTable();
     grammarTable gT = new grammarTable();
     Error e = new Error();
-    LexAn l = new LexAn();
-
+    LexAn l;
+    Generator g;
     public Parser() {
+        g = new Generator();
+        l = new LexAn(g);
     }
     //token
     //state
@@ -39,7 +41,6 @@ public class Parser {
     }
 
     //106->state x 63->token
-
     public void something() {
         gT.populate();
         lT.lookupTablepop();
@@ -70,6 +71,7 @@ public class Parser {
             }
             if (curState == 6) {
                 accept();
+                g.cases(0);
             }
         }
     }
@@ -78,14 +80,17 @@ public class Parser {
      */
 
     public void reduce(int x) {
+        if((x>=27&&x<=33)||x==37||x==39||x==41){
+            g.cases(x);
+        }
         int[] z = gT.getRule(x);
         for (int shit = 0; shit < z.length - 1; shit++) {
             //System.out.println("Reduce on rule: " + x);
             s.pop();
             int popped = s.pop();
             if (popped != z[shit]) {
-                //System.out.println("popped " + popped + " expected " + z[shit]);
-                //System.out.println("Parse error line 91");
+                System.out.println("Found " + popped + ", expected " + z[shit]);
+                System.out.println("Parse error line 91");
                 System.exit(-1);
             }
         }
@@ -98,7 +103,7 @@ public class Parser {
         //System.out.println("108 Pushed: " + s.peek());
         curState = lT.fuck(curState, s.peek());
         if (curState == 9999) {
-            //System.out.println("semantic error");
+            System.out.println("Grammatical error error");
             System.exit(-1);
         }
         s.push(curState);

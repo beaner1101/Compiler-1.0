@@ -9,12 +9,20 @@
  * @author beaner
  */
 public class Symbol {
-    String name, type;
-    Object value;
-    public Symbol(String t, String n, Object v)
-    {
-        type=t;
-        name=n;
-        value=v;
+
+    String name;
+    int type;
+
+    public Symbol(String n, int t) {
+        name = n;
+        type = t;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getType() {
+        return type;
     }
 }

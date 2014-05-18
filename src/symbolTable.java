@@ -5,32 +5,32 @@
  */
 
 import java.util.*;
+
 /**
  *
  * @author beaner
  */
 public class symbolTable {
-    ArrayList sT=new ArrayList<Symbol>();
-    public symbolTable()
-    {
-        
+
+    ArrayList sT = new ArrayList<Symbol>();
+
+    public symbolTable() {
+
     }
-    public void add(Symbol n)
-    {
+
+    public void add(Symbol n) {
         sT.add(n);
     }
-    public boolean check(Symbol n)
-    {
-        if(sT.contains(n))
-        {
+
+    public boolean check(Symbol n) {
+        if (sT.contains(n)) {
             return true;
         }
         return false;
     }
-    public void p()
-    {
-        for(int i=0;i<sT.size();i++)
-        {
+
+    public void p() {
+        for (int i = 0; i < sT.size(); i++) {
             System.out.println(sT.get(i).toString());
         }
     }

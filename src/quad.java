@@ -9,12 +9,18 @@
  * @author beaner
  */
 public class quad {
+
     String operation;
-    String q1,q2,q3;
-    public quad(String op, String x, String y, String z){
+    String q1, q2, q3;
+    int line;
+
+    public quad(String op, String x, String y, String z) {
         operation = op;
         q1 = x;
         q2 = y;
         q3 = z;
+    }
+    public void patch(String in){
+        q3=in;
     }
 }
