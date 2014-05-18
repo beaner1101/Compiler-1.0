@@ -96,6 +96,21 @@ public class LexAn {
         while(scncnt<in.length()-1)
         {
             scncnt++;
+            if(in.charAt(scncnt)=='-'&&in.charAt(scncnt+1)=='-')
+            {
+                while(in.charAt(scncnt)!='\n')
+                {
+                    scncnt++;
+                }
+            }
+            if(in.charAt(scncnt)=='/'&&in.charAt(scncnt+1)=='*')
+            {
+                while(!(in.charAt(scncnt)=='*'&&in.charAt(scncnt+1)=='/'))
+                {
+                    scncnt++;
+                }
+                scncnt+=2;
+            }
             if((in.charAt(scncnt)>='a'&&in.charAt(scncnt)<='z')||(in.charAt(scncnt)>='A'&&in.charAt(scncnt)<='Z')||in.charAt(scncnt)=='_'||in.charAt(scncnt)=='.'||(in.charAt(scncnt)>='0'&&in.charAt(scncnt)<='9'))
             {
                 tmp+=in.charAt(scncnt);
