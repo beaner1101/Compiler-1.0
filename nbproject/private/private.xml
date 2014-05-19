@@ -12,6 +12,7 @@
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/parseToken.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Parser.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Generator.java</file>
+            <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/Error.java</file>
             <file>file:/home/beaner/NetBeansProjects/Compiler_Main/src/symbolTable.java</file>
         </group>
     </open-files>

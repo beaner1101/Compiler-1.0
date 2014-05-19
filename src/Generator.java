@@ -34,6 +34,11 @@ public class Generator {
     }
 
     public void cases(int in) {
+        if(gS.size()<=0)
+        {
+           System.out.println("Parse error");
+           System.exit(-1);
+        }
         String opCode;
         op1=op2=op3=opCode="";
         System.out.println(in);
@@ -41,7 +46,7 @@ public class Generator {
             case 0:
                 q.add(new quad("HLT","","",""));
                 try {
-                        File file = new File("/home/beaner/Desktop/out.asm");
+                        File file = new File("/home/beaner/Desktop/Compiler_Bean/mICE/out.asm");
 			if (!file.exists()) {
 				file.createNewFile();
 			}

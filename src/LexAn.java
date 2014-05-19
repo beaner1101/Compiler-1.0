@@ -75,7 +75,7 @@ public class LexAn {
     public void file() {
         //System.out.println("Enter the path: ");
         //String path=s.nextLine();
-        String path = "/home/beaner/Desktop/t";
+        String path = "/home/beaner/Desktop/Compiler_Bean/t";
         String hold;
         File input = new File(path);
         try {

@@ -99,6 +99,11 @@ public class Parser {
             System.exit(-1);
         }
         curState = s.peek();
+        if(curState==9999)
+        {
+            System.out.println("Parse error");
+            System.exit(-1);
+        }
         s.push(z[z.length - 1]);
         //System.out.println("108 Pushed: " + s.peek());
         curState = lT.fuck(curState, s.peek());
@@ -119,6 +124,11 @@ public class Parser {
         s.push(x);
         //System.out.println("126 pushed: " + s.peek());
         curState = x;
+        if(curState==9999)
+        {
+            System.out.println("Parse error");
+            System.exit(-1);
+        }
     }
     /*
      code for goto
