@@ -41,14 +41,14 @@ public class Generator {
             case 0:
                 q.add(new quad("HLT","","",""));
                 try {
-                        File file = new File("/home/beaner/Desktop/out.txt");
+                        File file = new File("/home/beaner/Desktop/out.asm");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
                         FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
                         for(int i=0;i<q.size();i++){
-                            bw.write(i+" "+q.get(i).operation+" "+q.get(i).q1+", "+q.get(i).q2+", "+q.get(i).q3+'\n');
+                            bw.write(i+" "+q.get(i).operation+" "+q.get(i).q1+","+q.get(i).q2+","+q.get(i).q3+'\n');
                         }
 			bw.close();
                 } catch (IOException e) {
@@ -76,18 +76,26 @@ public class Generator {
                 break;
             case 27:
                 op2 = gS.pop();
+                if (op2.charAt(0) >= '0' && op2.charAt(0) <= '9') {
+                    String v = "#" + op2;
+                    op2 = v;
+                }
                 q.add(new quad("SYS", "#-1", op2, op3));
                 cnt++;
-                q.add(new quad("SYS", "#0", op2, op3));
+                q.add(new quad("SYS", "#0", "", op3));
                 cnt++;
                 break;
             case 28:
                 op2 = gS.pop();
+                if (op2.charAt(0) >= '0' && op2.charAt(0) <= '9') {
+                    String v = "#" + op2;
+                    op2 = v;
+                }
                 q.add(new quad("SYS", "#-1", op2, op3));
                 cnt++;
                 break;
             case 29:
-                q.add(new quad("SYS", "#0", op2, op3));
+                q.add(new quad("SYS", "#0", "", ""));
                 cnt++;
                 break;
             case 30:
@@ -123,8 +131,16 @@ public class Generator {
                 break;
             case 37:
                 op2=gS.pop();
+                if (op2.charAt(0) >= '0' && op2.charAt(0) <= '9') {
+                    String v = "#" + op2;
+                    op2 = v;
+                }
                 opCode=gS.pop();
                 op1=gS.pop();
+                if (op1.charAt(0) >= '0' && op1.charAt(0) <= '9') {
+                    String v = "#" + op1;
+                    op1 = v;
+                }
                 if(opCode.equals(">")){
                     opCode="JGT";
                 }
@@ -155,8 +171,16 @@ public class Generator {
                 break;
             case 39:
                 op2 = gS.pop();
+                if (op2.charAt(0) >= '0' && op2.charAt(0) <= '9') {
+                    String v = "#" + op2;
+                    op2 = v;
+                }
                 opCode = gS.pop();
                 op1 = gS.pop();
+                if (op1.charAt(0) >= '0' && op1.charAt(0) <= '9') {
+                    String v = "#" + op1;
+                    op1 = v;
+                }
                 temps++;
                 op3 = "temp" + temps;
                 if (opCode.equals("+")) {
@@ -171,8 +195,16 @@ public class Generator {
                 break;
             case 41:
                 op2 = gS.pop();
+                if (op2.charAt(0) >= '0' && op2.charAt(0) <= '9') {
+                    String v = "#" + op2;
+                    op2 = v;
+                }
                 opCode = gS.pop();
                 op1 = gS.pop();
+                if (op1.charAt(0) >= '0' && op1.charAt(0) <= '9') {
+                    String v = "#" + op1;
+                    op1 = v;
+                }
                 temps++;
                 op3 = "temp" + temps;
                 if (opCode.equals("*")) {
@@ -189,5 +221,8 @@ public class Generator {
                 cnt++;
                 break;
         }
+        op1 = "";
+        op2 = "";
+        op3 = "";
     }
 }
